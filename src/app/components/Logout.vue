@@ -1,10 +1,8 @@
 <template lang="html">
   <div>
-    <div class="row p-4">
-      <div class="col-md-10">
+    <div class="row py-4">
+      <div class="col-12">
         <h1 class="d-inline">Logout</h1>
-      </div>
-      <div class="col-md-2">
       </div>
     </div>
   </div>

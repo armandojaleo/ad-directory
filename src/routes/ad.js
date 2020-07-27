@@ -15,16 +15,34 @@ adRoutes.route('/').get(async (req, res) => {
   });
 });
 
-adRoutes.route('/user').get(verifyToken, async (req, res) => {
+adRoutes.route('/search/:q').get(async (req, res) => {
+  let regex = new RegExp(decodeURIComponent(req.params.q), 'i');
+  await Ad.find({
+    $or: [
+      { 'name': regex },
+      { 'company': regex },
+      { 'description': regex },
+      { 'category': regex },
+    ]
+  }).sort({ lasttimestamp: -1 }).exec((err, ads) => {
+    if (err) {
+      console.log(err);
+    }
+    else {
+      res.json(ads);
+    }
+  });
+});
+
+adRoutes.route('/user').get(verifyToken, async (req, res, next) => {
   if (req.userid) {
-    await Ad.find({ userid: req.userid }, function (err, ads) {
-      if (err) {
-        console.log(err);
-      }
-      else {
-        res.json(ads);
-      }
-    });
+    const ads = await Ad.find({ userid: req.userid });
+    if (!ads) {
+      return res.status(404).send("No ads found.");
+    }
+    res.status(200).json(ads);
+  } else {
+    return res.status(401).send({ auth: false, message: 'No token provided' });
   }
 });
 

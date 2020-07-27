@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div class="row p-4">
-      <div class="col-md-10">
+    <div class="row py-4">
+      <div class="col-9">
         <h1 class="d-inline">Update Ad</h1>
       </div>
-      <div class="col-md-2">
+      <div class="col-3">
         <router-link :to="{ name: 'MyAds' }" class="btn btn-success">Return</router-link>
       </div>
     </div>
@@ -77,7 +77,8 @@ export default {
           this.$router.push({ name: "MyAds" });
         })
         .catch(function() {
-          router.push("/SignIn");
+          localStorage.removeItem("authtoken");
+          document.location.href = "/signin";
         });
     }
   }

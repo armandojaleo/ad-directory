@@ -1,45 +1,29 @@
 <template>
   <div>
-    <div class="row p-4">
-      <div class="col-md-10">
+    <div class="row py-4">
+      <div class="col-9">
         <h1 class="d-inline">New Ad</h1>
       </div>
-      <div class="col-md-2">
+      <div class="col-3 text-right">
         <router-link :to="{ name: 'DisplayAd' }" class="btn btn-success">Return</router-link>
       </div>
     </div>
     <form v-on:submit.prevent="createAd">
-      <div class="row">
-        <div class="col-md-6">
-          <div class="form-group">
-            <label>Name:</label>
-            <input type="text" class="form-control" v-model="ad.name" />
-          </div>
-        </div>
+      <div class="form-group">
+        <label>Name:</label>
+        <input type="text" class="form-control" v-model="ad.name" />
       </div>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="form-group">
-            <label>Company:</label>
-            <input type="text" class="form-control" v-model="ad.company" />
-          </div>
-        </div>
+      <div class="form-group">
+        <label>Company:</label>
+        <input type="text" class="form-control" v-model="ad.company" />
       </div>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="form-group">
-            <label>Description:</label>
-            <textarea class="form-control" v-model="ad.description"></textarea>
-          </div>
-        </div>
+      <div class="form-group">
+        <label>Description:</label>
+        <textarea class="form-control" v-model="ad.description"></textarea>
       </div>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="form-group">
-            <label>Category:</label>
-            <input type="text" class="form-control" v-model="ad.category" />
-          </div>
-        </div>
+      <div class="form-group">
+        <label>Category:</label>
+        <input type="text" class="form-control" v-model="ad.category" />
       </div>
       <div class="form-group">
         <button class="btn btn-primary">Save</button>
@@ -70,7 +54,8 @@ export default {
           this.$router.push({ name: "MyAds" });
         })
         .catch(function() {
-          router.push("/SignIn");
+          localStorage.removeItem("authtoken");
+          document.location.href = "/signin";
         });
     }
   }

@@ -1,34 +1,51 @@
 <template>
   <div>
-    <div class="row p-4">
-      <div class="col-md-12">
+    <div class="row py-4">
+      <div class="col-9">
         <h1 class="d-inline">Ad Directory</h1>
-        <router-link v-if="ifAuthenticated" :to="{ name: 'CreateAd' }" class="btn btn-primary float-right mt-2">New</router-link>
+      </div>
+      <div class="col-3 text-right">
+        <router-link v-if="ifAuthenticated" :to="{ name: 'CreateAd' }" class="btn btn-success">New</router-link>
       </div>
     </div>
-    <br>
-
-    <table class="table table-hover table-bordered">
-      <thead>
-        <tr>
-          <td>Name</td>
-          <td>Company</td>
-          <td>Description</td>
-          <td>Category</td>
-          <td>Updated</td>
-        </tr>
-      </thead>
-
-      <tbody>
-        <tr v-for="(ad, index) in ads" :key="index">
-          <td>{{ ad.name }}</td>
-          <td>{{ ad.company }}</td>
-          <td>{{ ad.description }}</td>
-          <td>{{ ad.category }}</td>
-          <td>{{ ad.lasttimestamp }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="row">
+      <div class="col-12">
+        <form v-on:submit.prevent="searchAds()">
+          <input type="text" class="form-control" v-model="search" placeholder="Search" />
+        </form>
+      </div>
+    </div>
+    <div v-if="ads.length == 0" class="row mt-5">
+      <div class="col-12">
+        <div class="jumbotron jumbotron-fluid">
+          <div class="container">
+            <h2 class="display-4">We are sorry</h2>
+            <p class="lead">I can't find it</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div v-else class="row my-2" v-for="(ad, index) in ads" :key="index">
+      <div class="col-12">
+        <div class="card">
+          <img src class="card-img-top" alt />
+          <div class="card-body">
+            <h5 class="card-title">{{ ad.name }}</h5>
+            <p class="card-text">{{ ad.description }}</p>
+            <p class="card-text">
+              <small class="text-muted">{{ ad.company }}</small>
+            </p>
+            <p class="card-text">
+              <small class="text-muted">{{ ad.category }}</small>
+            </p>
+            <p class="card-text">
+              <small class="text-muted">{{ ad.lasttimestamp }}</small>
+            </p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -37,7 +54,8 @@ export default {
   data() {
     return {
       ads: [],
-      ifAuthenticated: localStorage.getItem('authtoken')? true: false
+      ifAuthenticated: localStorage.getItem("authtoken") ? true : false,
+      search: ""
     };
   },
 
@@ -51,6 +69,16 @@ export default {
       this.axios.get(uri).then(response => {
         this.ads = response.data;
       });
+    },
+    searchAds() {
+      if (this.search !== "") {
+        let uri = "/ads/search/" + encodeURIComponent(this.search);
+        this.axios.get(uri).then(response => {
+          this.ads = response.data;
+        });
+      } else {
+        this.fetchAds();
+      }
     }
   }
 };

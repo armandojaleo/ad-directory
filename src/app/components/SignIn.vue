@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div class="row p-4">
-      <div class="col-md-10">
+    <div class="row py-4">
+      <div class="col-10">
         <h1 class="d-inline">Signin</h1>
       </div>
-      <div class="col-md-2"></div>
+      <div class="col-2"></div>
     </div>
     <form v-on:submit.prevent="signIn">
       <div class="form-group">

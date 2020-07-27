@@ -9,36 +9,36 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav mr-auto">
-          <li v-if="ifAuthenticated" class="nav-item">
+          <li v-if="ifAuthenticated" class="nav-item" data-toggle="collapse" data-target="#navbarNav">
             <router-link :to="{ name: 'CreateAd' }" class="nav-link">
               New Ad
             </router-link>
           </li>
-          <li v-if="ifAuthenticated" class="nav-item">
+          <li v-if="ifAuthenticated" class="nav-item" data-toggle="collapse" data-target="#navbarNav">
             <router-link :to="{ name: 'MyAds' }" class="nav-link">
               My Ads
             </router-link>
           </li>
         </ul>
         <ul v-if="ifAuthenticated" class="nav navbar-nav navbar-right">
-          <li class="nav-item">
+          <li class="nav-item" data-toggle="collapse" data-target="#navbarNav">
             <router-link :to="{ name: 'Me' }" class="nav-link">
               Me
             </router-link>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" data-toggle="collapse" data-target="#navbarNav">
             <router-link :to="{ name: 'Logout' }" class="nav-link">
               Logout
             </router-link>
           </li>
         </ul>
         <ul v-else class="nav navbar-nav navbar-right">
-          <li class="nav-item">
+          <li class="nav-item" data-toggle="collapse" data-target="#navbarNav">
             <router-link :to="{ name: 'SignIn' }" class="nav-link">
               Login
             </router-link>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" data-toggle="collapse" data-target="#navbarNav">
             <router-link :to="{ name: 'SignUp' }" class="nav-link">
               Signup
             </router-link>

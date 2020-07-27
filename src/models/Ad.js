@@ -11,4 +11,6 @@ const adSchema = new Schema({
   collection: 'ads'
 });
 
+adSchema.index({ name: 'text', 'company': 'text', 'description': 'text', 'category': 'text' });
+
 module.exports = model('Ad', adSchema);

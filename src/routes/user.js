@@ -4,12 +4,16 @@ const verifyToken = require('./verifyToken');
 const jwt = require('jsonwebtoken');
 const config = require('../config/secret');
 
-userRoutes.route('/me').get(verifyToken, async (req, res) => {
-  const user = await User.findById(req.userid, { password: 0 });
-  if (!user) {
-    return res.status(404).send("No user found.");
+userRoutes.route('/me').get(verifyToken, async (req, res, next) => {
+  if (req.userid) {
+    const user = await User.findById(req.userid, { password: 0 });
+    if (!user) {
+      return res.status(404).send("No user found.");
+    }
+    res.status(200).json(user);
+  } else {
+    return res.status(401).send({ auth: false, message: 'No token provided' });
   }
-  res.status(200).json(user);
 });
 
 userRoutes.route('/signup').post(async (req, res) => {
@@ -23,7 +27,7 @@ userRoutes.route('/signup').post(async (req, res) => {
     user.password = await user.encryptPassword(password);
     await user.save();
     const token = jwt.sign({ id: user.id }, config.secret, {
-      expiresIn: 60 * 60 * 24
+      expiresIn: 60 * 30
     });
     res.json({ auth: true, token });
   } catch (e) {
@@ -42,7 +46,7 @@ userRoutes.route('/signin').post(async (req, res) => {
     return res.status(401).send({ auth: false, token: null });
   }
   const token = jwt.sign({ id: user._id }, config.secret, {
-    expiresIn: 60
+    expiresIn: 60 * 30
   });
   res.status(200).json({ auth: true, token });
 });
@@ -58,22 +62,31 @@ userRoutes.route('/edit/:id').get(function (req, res) {
   });
 });
 
-userRoutes.route('/update/:id').post(function (req, res) {
-  User.findById(req.params.id, function (err, user) {
-    if (!user)
-      return next(new Error('Could not load Document'));
-    else {
-      user.username = req.body.name;
-      user.email = req.body.company;
-      user.password = req.body.description;
-      user.save().then(user => {
-        res.json('Update complete');
-      })
-        .catch(err => {
-          res.status(400).send("Unable to update the database");
-        });
-    }
-  });
+userRoutes.route('/update').post(verifyToken, async (req, res, next) => {
+  if (req.userid) {
+    await User.findById(req.userid, async (err, user) => {
+      if (!user)
+        return next(new Error('Could not load Document'));
+      else {
+        const { password1, password2 } = req.body;
+        if (password1 === password2) {
+          user.password = await user.encryptPassword(password1)
+          await user.save().then(user => {
+            const token = jwt.sign({ id: user.id }, config.secret, {
+              expiresIn: 60 * 30
+            });
+            res.json({ auth: true, token, user });
+          }).catch(err => {
+            res.status(400).send("Unable to update the database");
+          });
+        } else {
+          res.status(400).send("Error password");
+        }
+      }
+    });
+  } else {
+    return res.status(401).send({ auth: false, message: 'No token provided' });
+  }
 });
 
 userRoutes.route('/delete/:id').get(function (req, res) {
