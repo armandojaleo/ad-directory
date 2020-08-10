@@ -36,12 +36,12 @@
               <small class="text-muted">{{ ad.company }}</small>
             </p>
             <p class="card-text">
-              <small class="text-muted">{{ ad.category }}</small>
+              <small class="text-muted">In {{ ad.category }}</small>
             </p>
             <p class="card-text">
               <small class="text-muted">{{ ad.lasttimestamp }}</small>
             </p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
+            <a :href="ad.link" class="btn btn-primary" target="_new">Visit {{ ad.link }}</a>
           </div>
         </div>
       </div>

@@ -6,7 +6,7 @@ bodyParser = require('body-parser'),
   mongoose = require('mongoose'),
   { DB } = require('./config/database'),
   adRoutes = require('./routes/ad');
-  userRoutes = require('./routes/user');
+userRoutes = require('./routes/user');
 
 mongoose.Promise = global.Promise;
 mongoose.connect(DB, {
@@ -15,6 +15,7 @@ mongoose.connect(DB, {
 })
   .then(() => console.log('Db is conencted'))
   .catch(err => console.error(err));
+mongoose.set('useCreateIndex', true);
 
 const app = express();
 var port = process.env.PORT || 4000;
@@ -32,9 +33,9 @@ app.use('/users', userRoutes);
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.route('/*')
-    .get(function(req, res) {
-          res.sendFile(path.join(__dirname + '/public/index.html'));
-});
+  .get(function (req, res) {
+    res.sendFile(path.join(__dirname + '/public/index.html'));
+  });
 
 // start the server
 var server = app.listen(port, function () {

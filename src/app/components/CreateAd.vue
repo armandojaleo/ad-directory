@@ -22,6 +22,10 @@
         <textarea class="form-control" v-model="ad.description"></textarea>
       </div>
       <div class="form-group">
+        <label>Link:</label>
+        <input type="text" class="form-control" v-model="ad.link" />
+      </div>
+      <div class="form-group">
         <label>Category:</label>
         <input type="text" class="form-control" v-model="ad.category" />
       </div>

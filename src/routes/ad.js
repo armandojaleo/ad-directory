@@ -80,6 +80,7 @@ adRoutes.route('/update/:id').post(verifyToken, function (req, res) {
         ad.name = req.body.name;
         ad.company = req.body.company;
         ad.description = req.body.description;
+        ad.link = req.body.link;
         ad.category = req.body.category;
         ad.userid = req.userid;
         ad.lasttimestamp = new Date().toJSON().slice(0, 19).replace('T', ' ');

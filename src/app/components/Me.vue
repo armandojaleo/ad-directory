@@ -24,10 +24,16 @@
       <div class="form-group">
         <label>Password</label>
         <input type="password" class="form-control" v-model="user.password1" />
+        <transition name="fade">
+          <small v-if="msg.password">{{msg.password}}</small>
+        </transition>
       </div>
       <div class="form-group">
-        <label>Repeat Password</label>
+        <label>Repeat password</label>
         <input type="password" class="form-control" v-model="user.password2" />
+        <transition name="fade">
+          <small v-if="msg.password">{{msg.password}}</small>
+        </transition>
       </div>
       <div class="form-group">
         <button class="btn btn-primary">Save</button>
@@ -42,43 +48,69 @@ import toastr from "toastr";
 export default {
   data() {
     return {
-      user: {}
+      user: {
+        password1: "",
+        password2: "",
+      },
+      msg: [],
     };
   },
-  created: function() {
+  created: function () {
     this.getUser();
+  },
+  watch: {
+    "user.password2": function () {
+      this.validatePassword(this.user.password1, this.user.password2);
+    },
+    $route(to, from) {
+      this.user.destroy();
+    },
   },
   methods: {
     getUser() {
       const auth = {
-        headers: { "auth-token": localStorage.getItem("authtoken") }
+        headers: { "auth-token": localStorage.getItem("authtoken") },
       };
       let uri = "/users/me";
       this.axios
         .get(uri, auth)
-        .then(response => {
+        .then((response) => {
           this.user = response.data;
         })
-        .catch(error => {
+        .catch((error) => {
           localStorage.removeItem("authtoken");
           document.location.href = "/signin";
         });
     },
     updateUser() {
       const auth = {
-        headers: { "auth-token": localStorage.getItem("authtoken") }
+        headers: { "auth-token": localStorage.getItem("authtoken") },
       };
       let uri = "/users/update";
       this.axios
         .post(uri, this.user, auth)
-        .then(response => {
+        .then((response) => {
           toastr.success(response.data.user, "Password updated");
         })
-        .catch(function() {
+        .catch(function () {
           localStorage.removeItem("authtoken");
           document.location.href = "/signin";
         });
-    }
-  }
+    },
+    validateEmail(value) {
+      if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)) {
+        this.msg["email"] = "";
+      } else {
+        this.msg["email"] = "Invalid Email Address";
+      }
+    },
+    validatePassword(password1, password2) {
+      if (password1 !== password2) {
+        this.msg["password"] = "The password must be the same";
+      } else {
+        this.msg["password"] = "";
+      }
+    },
+  },
 };
 </script>

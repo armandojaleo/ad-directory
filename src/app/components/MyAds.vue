@@ -30,16 +30,19 @@
         <div class="card">
           <img src class="card-img-top" alt />
           <div class="card-body">
-            <h5 class="card-title">{{ ad.name }}</h5>
-            <p class="card-text">{{ ad.description }}</p>
+            <h5 class="card-title">Name: {{ ad.name }}</h5>
+            <p class="card-text">Description: {{ ad.description }}</p>
             <p class="card-text">
-              <small class="text-muted">{{ ad.company }}</small>
+              <small class="text-muted">Company: {{ ad.company }}</small>
             </p>
             <p class="card-text">
-              <small class="text-muted">{{ ad.category }}</small>
+              <small class="text-muted">Link: {{ ad.link }}</small>
             </p>
             <p class="card-text">
-              <small class="text-muted">{{ ad.lasttimestamp }}</small>
+              <small class="text-muted">Categories: {{ ad.category }}</small>
+            </p>
+            <p class="card-text">
+              <small class="text-muted">Last update: {{ ad.lasttimestamp }}</small>
             </p>
             <div v-if="ifAuthenticated">
               <router-link
