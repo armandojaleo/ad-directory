@@ -25,8 +25,8 @@
         </div>
       </div>
     </div>
-    <div v-else class="row my-2" v-for="(ad, index) in ads" :key="index">
-      <div class="col-12">
+    <div v-else class="row my-2">
+      <div class="col-4 my-2" v-for="(ad, index) in ads" :key="index">
         <div class="card">
           <img src class="card-img-top" alt />
           <div class="card-body">
