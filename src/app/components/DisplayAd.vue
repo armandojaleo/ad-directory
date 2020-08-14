@@ -26,12 +26,12 @@
       </div>
     </div>
     <div v-else class="row my-2">
-      <div class="col-4 my-2" v-for="(ad, index) in ads" :key="index">
+      <div class="col-12 col-md-4 my-2" v-for="(ad, index) in ads" :key="index">
         <div class="card">
           <img src class="card-img-top" alt />
           <div class="card-body">
             <h5 class="card-title">{{ ad.name }}</h5>
-            <p class="card-text">{{ ad.description }}</p>
+            <p class="card-text text-nowrap text-truncate" style="width: 18rem;">{{ ad.description }}</p>
             <p class="card-text">
               <small class="text-muted">{{ ad.company }}</small>
             </p>
@@ -41,7 +41,7 @@
             <p class="card-text">
               <small class="text-muted">{{ ad.lasttimestamp }}</small>
             </p>
-            <a :href="ad.link" class="btn btn-primary" target="_new">Visit {{ ad.link }}</a>
+            <a :href="ad.link" class="btn btn-primary" target="_new">Visit</a>
           </div>
         </div>
       </div>
