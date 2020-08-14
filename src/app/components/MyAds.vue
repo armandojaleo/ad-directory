@@ -104,7 +104,7 @@ export default {
       };
       const response = confirm("Are you sure you want to delete?");
       if (response) {
-        let uri = "/ads/delete" + id;
+        let uri = "/ads/delete/" + id;
         this.ads.splice(index, 1);
         this.axios.get(uri, auth).catch(function() {
           localStorage.removeItem("authtoken");
