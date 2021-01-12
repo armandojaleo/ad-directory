@@ -18,18 +18,22 @@ userRoutes.route('/me').get(verifyToken, async (req, res, next) => {
 
 userRoutes.route('/signup').post(async (req, res) => {
   try {
-    const { username, email, password } = req.body;
-    const user = new User({
-      username,
-      email,
-      password
-    });
-    user.password = await user.encryptPassword(password);
-    await user.save();
-    const token = jwt.sign({ id: user.id }, config.secret, {
-      expiresIn: 60 * 30
-    });
-    res.json({ auth: true, token });
+    const { username, email, password1, password2 } = req.body;
+    if (password1 === password2) {
+      const user = new User({
+        username,
+        email,
+        password
+      });
+      user.password = await user.encryptPassword(password1);
+      await user.save();
+      const token = jwt.sign({ id: user.id }, config.secret, {
+        expiresIn: 60 * 30
+      });
+      res.json({ auth: true, token });
+    } else {
+      res.status(400).send("Error password");
+    }
   } catch (e) {
     console.log(e)
     res.status(500).send('There was a problem registering your user');

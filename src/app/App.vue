@@ -1,47 +1,59 @@
 <template>
   <div>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <router-link :to="{ name: 'DisplayAd' }" class="navbar-brand">
-        Ad Directory
-      </router-link>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <router-link :to="{ name: 'DisplayAds' }" class="navbar-brand">Ad Directory</router-link>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav mr-auto">
-          <li v-if="ifAuthenticated" class="nav-item" data-toggle="collapse" data-target="#navbarNav">
-            <router-link :to="{ name: 'CreateAd' }" class="nav-link">
-              New Ad
-            </router-link>
+          <li
+            v-if="ifAuthenticated"
+            class="nav-item"
+            data-toggle="collapse"
+            data-target="#navbarNav"
+          >
+            <router-link :to="{ name: 'CreateAd' }" class="nav-link">New Ad</router-link>
           </li>
-          <li v-if="ifAuthenticated" class="nav-item" data-toggle="collapse" data-target="#navbarNav">
-            <router-link :to="{ name: 'MyAds' }" class="nav-link">
-              My Ads
-            </router-link>
+          <li
+            v-if="ifAuthenticated"
+            class="nav-item"
+            data-toggle="collapse"
+            data-target="#navbarNav"
+          >
+            <router-link :to="{ name: 'MyAds' }" class="nav-link">My Ads</router-link>
+          </li>
+          <li
+            v-if="ifAuthenticated"
+            class="nav-item"
+            data-toggle="collapse"
+            data-target="#navbarNav"
+          >
+            <router-link :to="{ name: 'MyCompanies' }" class="nav-link">My Companies</router-link>
           </li>
         </ul>
         <ul v-if="ifAuthenticated" class="nav navbar-nav navbar-right">
           <li class="nav-item" data-toggle="collapse" data-target="#navbarNav">
-            <router-link :to="{ name: 'Me' }" class="nav-link">
-              Me
-            </router-link>
+            <router-link :to="{ name: 'Me' }" class="nav-link">Me</router-link>
           </li>
           <li class="nav-item" data-toggle="collapse" data-target="#navbarNav">
-            <router-link :to="{ name: 'Logout' }" class="nav-link">
-              Logout
-            </router-link>
+            <router-link :to="{ name: 'Logout' }" class="nav-link">Logout</router-link>
           </li>
         </ul>
         <ul v-else class="nav navbar-nav navbar-right">
           <li class="nav-item" data-toggle="collapse" data-target="#navbarNav">
-            <router-link :to="{ name: 'SignIn' }" class="nav-link">
-              Login
-            </router-link>
+            <router-link :to="{ name: 'SignIn' }" class="nav-link">Login</router-link>
           </li>
           <li class="nav-item" data-toggle="collapse" data-target="#navbarNav">
-            <router-link :to="{ name: 'SignUp' }" class="nav-link">
-              Signup
-            </router-link>
+            <router-link :to="{ name: 'SignUp' }" class="nav-link">Signup</router-link>
           </li>
         </ul>
       </div>
@@ -60,8 +72,23 @@
 export default {
   data() {
     return {
-      ifAuthenticated: localStorage.getItem('authtoken')? true: false
+      ifAuthenticated: localStorage.getItem("authtoken") ? true : false,
     };
   },
-}
+};
 </script>
+
+<style>
+small {
+  color: red;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>

@@ -5,12 +5,14 @@ const adSchema = new Schema({
   company: String,
   description: String,
   category: String,
+  link: String,
+  keywords: String,
   userid: String,
   lasttimestamp: String
 }, {
   collection: 'ads'
 });
 
-adSchema.index({ name: 'text', 'company': 'text', 'description': 'text', 'category': 'text' });
+adSchema.index({ 'name': 'text', 'company': 'text', 'description': 'text', 'category': 'text', 'keywords': 'text' });
 
 module.exports = model('Ad', adSchema);

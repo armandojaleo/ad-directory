@@ -6,6 +6,7 @@ bodyParser = require('body-parser'),
   mongoose = require('mongoose'),
   { DB } = require('./config/database'),
   adRoutes = require('./routes/ad');
+  companyRoutes = require('./routes/company');
   userRoutes = require('./routes/user');
 
 mongoose.Promise = global.Promise;
@@ -13,8 +14,9 @@ mongoose.connect(DB, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
-  .then(() => console.log('Db is conencted'))
+  .then(() => console.log('Db is connected'))
   .catch(err => console.error(err));
+mongoose.set('useCreateIndex', true);
 
 const app = express();
 var port = process.env.PORT || 4000;
@@ -26,15 +28,16 @@ app.use(cors());
 
 // routes
 app.use('/ads', adRoutes);
+app.use('/companies', companyRoutes);
 app.use('/users', userRoutes);
 
 // static file
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.route('/*')
-    .get(function(req, res) {
-          res.sendFile(path.join(__dirname + '/public/index.html'));
-});
+  .get(function (req, res) {
+    res.sendFile(path.join(__dirname + '/public/index.html'));
+  });
 
 // start the server
 var server = app.listen(port, function () {
