@@ -6,14 +6,15 @@ bodyParser = require('body-parser'),
   mongoose = require('mongoose'),
   { DB } = require('./config/database'),
   adRoutes = require('./routes/ad');
-userRoutes = require('./routes/user');
+  companyRoutes = require('./routes/company');
+  userRoutes = require('./routes/user');
 
 mongoose.Promise = global.Promise;
 mongoose.connect(DB, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
-  .then(() => console.log('Db is conencted'))
+  .then(() => console.log('Db is connected'))
   .catch(err => console.error(err));
 mongoose.set('useCreateIndex', true);
 
@@ -27,6 +28,7 @@ app.use(cors());
 
 // routes
 app.use('/ads', adRoutes);
+app.use('/companies', companyRoutes);
 app.use('/users', userRoutes);
 
 // static file

@@ -16,7 +16,11 @@
 
       <div class="form-group">
         <label>Company</label>
-        <input type="text" class="form-control" v-model="ad.company" />
+        <select class="form-control" v-model="ad.company">
+          <option v-for="company in companies" :key="company._id" v-bind:value="company._id">
+            {{ company.name }}
+          </option>
+        </select>
       </div>
 
       <div class="form-group">
@@ -47,14 +51,15 @@ import toastr from "toastr";
 export default {
   data() {
     return {
-      ad: {}
+      ad: {},
+      companies: {}
     };
   },
 
   created: function() {
     this.getAd();
+    this.getCompanies();
   },
-
   methods: {
     getAd() {
       const auth = {
@@ -68,6 +73,21 @@ export default {
         })
         .catch(function() {
           router.push("/SignIn");
+        });
+    },
+    getCompanies() {
+      const auth = {
+        headers: { "auth-token": localStorage.getItem("authtoken") }
+      };
+      let uri = "/companies/user";
+      this.axios
+        .get(uri, auth)
+        .then(response => {
+          this.companies = response.data;
+        })
+        .catch(function() {
+          localStorage.removeItem("authtoken");
+          document.location.href = "/signin";
         });
     },
     updateAd() {

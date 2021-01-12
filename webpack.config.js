@@ -1,8 +1,10 @@
 const path = require('path');
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+require("babel-polyfill");
 
 module.exports = {
+  entry: ["babel-polyfill", "./server.js"],
   entry: {
     app: './src/app/main.js'
   },

@@ -23,6 +23,7 @@ adRoutes.route('/search/:q').get(async (req, res) => {
       { 'company': regex },
       { 'description': regex },
       { 'category': regex },
+      { 'keywords': regex }
     ]
   }).sort({ lasttimestamp: -1 }).exec((err, ads) => {
     if (err) {

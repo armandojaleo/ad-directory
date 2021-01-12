@@ -1,7 +1,7 @@
 <template>
   <div>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <router-link :to="{ name: 'DisplayAd' }" class="navbar-brand">Ad Directory</router-link>
+      <router-link :to="{ name: 'DisplayAds' }" class="navbar-brand">Ad Directory</router-link>
       <button
         class="navbar-toggler"
         type="button"
@@ -30,6 +30,14 @@
             data-target="#navbarNav"
           >
             <router-link :to="{ name: 'MyAds' }" class="nav-link">My Ads</router-link>
+          </li>
+          <li
+            v-if="ifAuthenticated"
+            class="nav-item"
+            data-toggle="collapse"
+            data-target="#navbarNav"
+          >
+            <router-link :to="{ name: 'MyCompanies' }" class="nav-link">My Companies</router-link>
           </li>
         </ul>
         <ul v-if="ifAuthenticated" class="nav navbar-nav navbar-right">

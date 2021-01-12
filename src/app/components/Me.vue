@@ -1,11 +1,13 @@
 <template lang="html">
   <div>
     <div class="row py-4">
-      <div class="col-9">
+      <div class="col-7">
         <h1 class="d-inline">Me</h1>
       </div>
-      <div class="col-3 text-right">
+      <div class="col-5 text-right">
         <router-link :to="{ name: 'MyAds' }" class="btn btn-success">My Ads</router-link>
+        <router-link :to="{ name: 'MyCompanies' }" class="btn btn-success">My Companies</router-link>
+        <button class="btn btn-danger disabled" v-on:click="deleteMe()">Delete Me</button>
       </div>
     </div>
     <div class="row">

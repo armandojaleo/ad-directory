@@ -15,7 +15,7 @@
         </form>
       </div>
     </div>
-    <div v-if="ads.length == 0" class="row mt-5">
+    <div v-if="ads == null" class="row mt-5">
       <div class="col-12">
         <div class="jumbotron jumbotron-fluid">
           <div class="container">
@@ -33,7 +33,7 @@
             <h5 class="card-title">Name: {{ ad.name }}</h5>
             <p class="card-text">Description: {{ ad.description }}</p>
             <p class="card-text">
-              <small class="text-muted">Company: {{ ad.company }}</small>
+              <small class="text-muted">Company: {{ ad.companyName }}</small>
             </p>
             <p class="card-text">
               <small class="text-muted">Link: {{ ad.link }}</small>
@@ -64,34 +64,48 @@ export default {
     return {
       ads: [],
       ifAuthenticated: localStorage.getItem("authtoken") ? true : false,
-      search: ""
+      search: "",
     };
   },
-
-  created: function() {
+  created: function () {
     this.fetchAds();
   },
-
   methods: {
     fetchAds() {
       const auth = {
-        headers: { "auth-token": localStorage.getItem("authtoken") }
+        headers: { "auth-token": localStorage.getItem("authtoken") },
       };
       let uri = "/ads/user";
-      this.axios
+      return this.axios
         .get(uri, auth)
-        .then(response => {
+        .then((response) => {
           this.ads = response.data;
+        }).then((response)=> {
+          this.ads.companyName = this.getCompanyName(this.ads.company)
+        }).catch(function () {
+          //localStorage.removeItem("authtoken");
+          //document.location.href = "/signin";
+        });
+    },
+    async getCompanyName(id) {
+      const auth = {
+        headers: { "auth-token": localStorage.getItem("authtoken") },
+      };
+      let uri = "/companies/" + id;
+      return await this.axios
+        .get(uri, auth)
+        .then((response) => {
+          response.data.name
         })
-        .catch(function() {
-          localStorage.removeItem("authtoken");
-          document.location.href = "/signin";
+        .catch(function () {
+          //localStorage.removeItem("authtoken");
+          //document.location.href = "/signin";
         });
     },
     searchAds() {
       if (this.search !== "") {
         let uri = "/ads/search/" + encodeURIComponent(this.search);
-        this.axios.get(uri).then(response => {
+        this.axios.get(uri).then((response) => {
           this.ads = response.data;
         });
       } else {
@@ -100,18 +114,18 @@ export default {
     },
     deleteAd(id, index) {
       const auth = {
-        headers: { "auth-token": localStorage.getItem("authtoken") }
+        headers: { "auth-token": localStorage.getItem("authtoken") },
       };
       const response = confirm("Are you sure you want to delete?");
       if (response) {
         let uri = "/ads/delete/" + id;
         this.ads.splice(index, 1);
-        this.axios.get(uri, auth).catch(function() {
+        this.axios.get(uri, auth).catch(function () {
           localStorage.removeItem("authtoken");
           document.location.href = "/signin";
         });
       }
-    }
-  }
+    },
+  },
 };
 </script>
